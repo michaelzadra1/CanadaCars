@@ -2,10 +2,8 @@ var express = require('express');
 var app = express();
 
 
-app.get('/', function(req, res) {
-	// Send message on response
-	res.send("Hello world!");
-});
+app.use(express.static(__dirname + "/public"));
+
 
 // Use port 3000
 app.listen(3000);
