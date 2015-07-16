@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html ng-app>
+<html class = "full" ng-app="myApp">
 <head>
 	<title>MEAN cars</title>
 
@@ -7,11 +7,34 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-animate.js"></script>
+
+
+	<!-- Bootstrap -->
+	<!-- Latest compiled and minified CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/bootstrap-theme.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+
+  <!-- Pageslide tool -->
+ <script src="js/lib/angular-pageslide-directive.min.js"></script>
+
+  <!-- JS docs -->
+  <script src="js/lib/jquery.min.js"></script>
+  <script src="js/lib/bootstrap.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers/search.js"></script>
+  <script src="js/controllers/home.js"></script>
+  
+
+
 </head>
 
 
 <body>
-	<input ng-model = "test">
-	<h1>{{test}}</h1>
+  <!-- Navbar -->
+	<section class="container" id="main-navbar" ng-include="'partials/navbar.html'"></section>
+  <!-- Set up view animation -->
+  <section id="{{pageclass}}" ng-view></section>
+
 </body>
 </html>
