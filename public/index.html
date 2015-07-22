@@ -9,32 +9,37 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-animate.js"></script>
 
 
-	<!-- Bootstrap -->
-	<!-- Latest compiled and minified CSS -->
+	<!-- Bootstrap & CSS -->
 	<link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/bootstrap-theme.css" rel="stylesheet">
   <link href="css/custom.css" rel="stylesheet">
 
-  <!-- Pageslide tool -->
- <script src="js/lib/angular-pageslide-directive.min.js"></script>
-
-  <!-- JS docs -->
+  <!-- Bootstrap JS -->
   <script src="js/lib/jquery.min.js"></script>
   <script src="js/lib/bootstrap.js"></script>
+ 
+ <!-- Angular-UI -->
+ <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
+ <script type="text/javascript" src="js/lib/modal-templates.js"></script>
+  <!-- Controllers -->
   <script src="js/app.js"></script>
+  <script src="js/controllers/nav.js"></script>
   <script src="js/controllers/search.js"></script>
   <script src="js/controllers/home.js"></script>
+  <script src="js/controllers/about.js"></script>
+  <script src="js/controllers/modal.js"></script>
+
+
   
 
 
 </head>
 
 
-<body>
+<body class="preload">
   <!-- Navbar -->
 	<section class="container" id="main-navbar" ng-include="'partials/navbar.html'"></section>
   <!-- Set up view animation -->
-  <section id="{{pageclass}}" ng-view></section>
+  <section id="{{pageClass}}" ng-view></section>
 
 </body>
 </html>
