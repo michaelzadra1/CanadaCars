@@ -1,5 +1,32 @@
-.modal-backdrop {
-  bottom:0;
+body {
+  padding-top: 50px;
+  padding-right: 60px;
+  padding-left: 60px;
+  padding-bottom: 10px;
+}
+
+.container  .img-responsive {
+    display: block;
+    width: auto;
+    max-height: 100%;
+}
+
+.resultsContainer {
+  padding: 0px 0 60px 0;
+}
+
+#secondCar {
+  background-color: #D2D2D2
+}
+
+#firstCar {
+  background-color: #FFDCB9;
+  border-right: 1px solid #88776C;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
 }
 
 .form-inline .form-control {
@@ -22,28 +49,6 @@
   padding-left:0;
 }
 
-
-.modal.fade .modal-dialog, .modal.in .modal-dialog {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-}
-
-.modal-content {
-  position: absolute;
-  top:50%;
-  -ms-transform: translate(0,-50%);
-  -moz-transform: translate(0,-50%);
-  -webkit-transform: translate(0,-50%);
-  transform: translate(0,-50%);
-  width:100%;
-}
-body {
-    padding-top: 50px;
-}
-
 .jumbotron {
     position: relative;
     z-index: 1;
@@ -54,10 +59,9 @@ body {
     min-height: 250px;
     margin-bottom: 0;
 }
-
-#pump-image {
-    height: 350;
-    width: 350;
+#caption-pic {
+  height: 290;
+  width: 290;
 }
 
 #home-header {
@@ -87,4 +91,11 @@ body {
 
 #call-to-action {
     min-height: 50px;
+}
+
+#website-info {
+  margin: 0 0 0 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: #F0F0F0
 }

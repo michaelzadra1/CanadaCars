@@ -12,6 +12,7 @@
 	<!-- Bootstrap & CSS -->
 	<link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/custom.css" rel="stylesheet">
+  
 
   <!-- Bootstrap JS -->
   <script src="js/lib/jquery.min.js"></script>
@@ -28,8 +29,8 @@
   <script src="js/controllers/about.js"></script>
   <script src="js/controllers/modal.js"></script>
 
-
-  
+  <!-- Prevent favicon warning message -->
+  <intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS" />
 
 
 </head>
