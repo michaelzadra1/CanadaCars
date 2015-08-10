@@ -2,10 +2,11 @@
 	<h2> {{carMode}} mode</h2>
 	<h2> Select a single car using the following dropdown menus </h2></br>
 	
-	<div class="col-lg-4 col-xs-4">
+  <!-- Dropdown selection menus -->
+	<div class="col-lg-3 col-xs-3">
     <form>
         <label>Car Year</label>
-        <select class="form-control">
+        <select class="form-control" ng-model="year" ng-change="getCars(year)">
             <option></option>
             <option value="1995">1995</option>
             <option value="1996">1996</option>
@@ -79,10 +80,24 @@
    		</select>
    	</form>
    	</div>
-   	<div class="col-lg-8 col-xs-8">
+
+    <!-- Gas/Distance selection -->
+    <div class = "col-lg-2 col-xs-2">
+      <form>
+        <label>How much Gas</label>
+      </form>  
+
+      <form>
+        <label>How far</label>
+      </form>
+
+    </div>
+
+    <!-- Car and Stats of car -->
+   	<div class="col-lg-7 col-xs-7 carStats">
 
    		<!-- Picture of selected car -->
-   		<img id = "" class="" src="images/whiteCar.png">
+   		<img class="selectedCarImage" src="images/whiteCar.png">
 
    		<!-- Results for selected car -->
    		<div class="resultsContainer col-lg-9 col-lg-offset-2 col-xs-9 col-xs-offset-2">
@@ -102,11 +117,11 @@
 		    </thead>
 		    <tbody>
 		      <tr class="text-center">
-		        <td>-</td>
-		        <td>-</td>
-		        <td>-</td>
-		        <td>-</td>
-		        <td>-</td>	        
+		        <td>{{carTest.fc_city}}</td>
+		        <td>{{carTest.fc_hwy}}</td>
+		        <td>{{carTest.fc_comb}}</td>
+		        <td>{{carTest.fc_comb_mpg}}</td>
+		        <td>{{carTest.emissions}}</td>	        
 		    </tbody>
 		  </table>
    		</div>

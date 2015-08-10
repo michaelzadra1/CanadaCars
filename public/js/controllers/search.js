@@ -1,4 +1,4 @@
-myApp.controller('SearchController', function($scope, $location) {
+myApp.controller('SearchController', function($scope, $http, $location) {
 	// Set animation class
 	$scope.pageClass = 'search';
 
@@ -9,5 +9,18 @@ myApp.controller('SearchController', function($scope, $location) {
 	$scope.carModeView = function () {
 		return 'partials/' + $scope.carMode + '.html';
 	};
+
+
+        $scope.getCars = function(year) {
+                console.log(year);
+                // HTTP request to GET cars as JSON object
+                $http.get('/cars').success(function(result){
+                        console.log("I got data");
+                        console.log(result);
+                        $scope.cars = result;
+                });    
+        };
+
+        
 
 }); //SearchController 
