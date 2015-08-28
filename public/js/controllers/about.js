@@ -3,15 +3,37 @@ myApp.controller('AboutController', function($scope) {
     $scope.pageClass = 'about';
 
     $scope.welcomeBool = true;
+
+    function textReplace(string) {
+        string = string.replace(/X/g, "Regular Gasoline");
+        string = string.replace(/Z/g, "Premium Gasoline");
+        string = string.replace(/D/g, "Diesel");
+        string = string.replace(/E/g, "Ethanol (E85)");
+        string = string.replace(/N/g, "Natural Gas");
+        console.log(string);
+    }
+
+    $scope.text = function() {
+        var element = document.getElementById("testText");
+        var elementHtml = element.outerHTML;
+        textReplace(elementHtml);
+
+    }
+
+
+
+
+
+
     $scope.animate = function() {
         $scope.welcomeBool = !$scope.welcomeBool;
     };
 
-    $scope.googleStuff = function(){
-		   	google.load("search", "1", {
-		        "callback": OnLoad
-		    });
-		    var imageSearch;
+    $scope.googleStuff = function() {
+        google.load("search", "1", {
+            "callback": OnLoad
+        });
+        var imageSearch;
     }
 
 
@@ -22,14 +44,14 @@ myApp.controller('AboutController', function($scope) {
 
             // Loop through our results, printing them to the page.
             var results = imageSearch.results;
-          
+
             // Get first result
             var result = results[0];
 
             // Replace current image with new image found
-            document.getElementById("lol").src=result.url;
-            }
+            document.getElementById("lol").src = result.url;
         }
+    }
 
     function OnLoad() {
 
@@ -43,5 +65,18 @@ myApp.controller('AboutController', function($scope) {
         // Find me a beautiful car.
         imageSearch.execute("lol");
     }
+
+    $scope.master = {firstName: "John", lastName: "Doe"};
+    $scope.reset = function() {
+        console.log($scope.user);
+        $scope.user = angular.copy($scope.master);
+    };
+    $scope.reset();
+
+
+
+
+
+
 
 }); //MainController

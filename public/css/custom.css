@@ -1,3 +1,14 @@
+#singlecar {
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .row {
   padding-bottom: 20px;
 }
@@ -16,8 +27,8 @@
 
 body {
   padding-top: 50px;
-  padding-right: 60px;
-  padding-left: 60px;
+  /*padding-right: 60px;
+  padding-left: 60px;*/
   padding-bottom: 10px;
 }
 
@@ -128,5 +139,6 @@ body {
   margin: 0 0 0 0;
   padding-top: 30px;
   padding-bottom: 30px;
-  background: #F0F0F0
+  padding-right: 60px;
+  padding-left: 60px;
 }

@@ -1,31 +1,76 @@
-myApp.controller('SearchController', function($scope, $http, $location, $routeParams) {
+myApp.controller('SearchController', function($scope, $http) {
 
+    // Defualt values for cost analysis of car
+    $scope.defaultCost = {
+        cityPercent: 55,
+        hwyPercent: 45,
+        annualDistance: 20000,
+        gasPrice: 99.9
+    };
+
+    // Animation variable for results section
     $scope.resultsBool = false;
-    // Hide sections until user makes selections
-    $scope.dropdownHide = true;
-    $scope.typeHide = false;
-    $scope.resultsHide = false;
-
-    $scope.whichCar = $routeParams.carId;
-
-    $scope.isDisabled = !($scope.vehicleClass);
 
     // Set animation class
     $scope.pageClass = 'search';
 
-    //Default radio button is single
-    $scope.carMode = 'single';
     // String for selected car
     $scope.carString;
 
-    // Returns single car view, or compare car view, based on radio button selection
-    $scope.carModeView = function() {
-        return 'partials/' + $scope.carMode + '.html';
-    }; //carModeView
+    // Max values for fuel consumption and emissions progress bars
+    $scope.fcMax = 35;
+    $scope.fcMaxMpg = 70;
+    $scope.emissionsMax = 700;
+
+    // Bool values for carbon tax rate
+    $scope.britishColumbia = false;
+    $scope.quebec = false;
+
+    // Resets car cost details
+    $scope.reset = function() {
+        $scope.carCost = angular.copy($scope.defaultCost);
+    };
+    $scope.reset();
+
+    // Fuel type string parser
+    function textReplace(string) {
+        string = string.replace(/X/g, "Regular Gasoline");
+        string = string.replace(/Z/g, "Premium Gasoline");
+        string = string.replace(/D/g, "Diesel");
+        string = string.replace(/E/g, "Ethanol (E85)");
+        string = string.replace(/N/g, "Natural Gas");
+        return string;
+    }
+
+    // Calculates annual cost of car
+    $scope.calculateCost = function() {
+        if ($scope.carCost.cityPercent + $scope.carCost.hwyPercent != 100) {
+            alert("City and highway driving must add to 100%!");
+        } else {
+            // Combined fuel rate chosen by user in L/KM
+            $scope.combinedRate = (($scope.inspectCar.fc_city * ($scope.carCost.cityPercent / 100)) + ($scope.inspectCar.fc_hwy * ($scope.carCost.hwyPercent / 100))) / 100;
+            console.log($scope.combinedRate + " L/KM");
+            // Calculate total annual cost
+            $scope.annualCost = ($scope.combinedRate * $scope.carCost.gasPrice * $scope.carCost.annualDistance) / 100;
+            // Round to two decimal places
+            $scope.annualCost = parseFloat(Math.round($scope.annualCost * 100) / 100).toFixed(2);
+            // Cost per KM
+            console.log($scope.costPerKm);
+            $scope.costPerKm = $scope.annualCost/$scope.carCost.annualDistance;
+            $scope.costPerKm = parseFloat(Math.round($scope.costPerKm * 100) / 100).toFixed(2);
+            //console.log("Annual cost of car is " + $scope.annualCost + " dollars.");
+            console.log($scope.costPerKm);
+        }
+    }
+
+    // Calculate carbon tax
+    $scope.calculateCarbonTax = function() {
+
+    }
 
     // User selects year, function returns array of cars from that year
     $scope.getCars = function(year) {
-        // HTTP request to GET cars as JSON object
+        // HTTP request to get cars as JSON object
         $http.post('/cars', {
             "year": year
         }).success(function(result) {
@@ -36,34 +81,38 @@ myApp.controller('SearchController', function($scope, $http, $location, $routePa
 
     // Generates picture for car, and displays stats for the selected vehicle
     $scope.generateCar = function(year, carMake, carModel, vehicleClass) {
-            $scope.carString = year + ' ' + carMake.make + ' ' + carModel.model + ' ' + vehicleClass.vehicle_class;
-            console.log($scope.carString);
-            // Make HTTP request to get car stats
-            $http.post('/selectCar', {
-                    "year": year,
-                    "make": carMake.make,
-                    "model": carModel.model,
-                    "vehicle_class": vehicleClass.vehicle_class
-                })
-                .success(function(result) {
+        $scope.carString = year + ' ' + carMake.make + ' ' + carModel.model + ' ' + vehicleClass.vehicle_class;
+        console.log($scope.carString);
+        // Make HTTP request to get car stats
+        $http.post('/selectCar', {
+            "year": year,
+            "make": carMake.make,
+            "model": carModel.model,
+            "vehicle_class": vehicleClass.vehicle_class
+        })
+            .success(function(result) {
 
-                    $scope.selectedCars = result;
-                    // Initialize selected row to null
-                    $scope.selectedRow = 0;
-                    // Intialize inspectCar as first selectedCar in object array
-                    $scope.inspectCar = $scope.selectedCars[0];
-                    //$scope.dropdownHide = true;
-                    $scope.typeHide = true;
-                });
-            // Google search API
-            google.load("search", "1", {
-                "callback": OnLoad
+                $scope.selectedCars = result;
+                // Initialize selected row to null
+                $scope.selectedRow = 0;
+                // Parse the fuel strings in results
+                for (car in $scope.selectedCars) {
+                    $scope.selectedCars[car].fuel_type = textReplace($scope.selectedCars[car].fuel_type);
+                }
+                // Intialize inspectCar as first selectedCar in object array
+                $scope.inspectCar = $scope.selectedCars[0];
+                $scope.calculateCost();
+
             });
-            var imageSearch;
-            $scope.resultsBool = true;
+        // Google search API
+        google.load("search", "1", {
+            "callback": OnLoad
+        });
+        var imageSearch;
+        // Animate results
+        $scope.resultsBool = true;
 
-        } //generateCar
-
+    } //generateCar
 
     function searchComplete() {
 
@@ -95,16 +144,23 @@ myApp.controller('SearchController', function($scope, $http, $location, $routePa
         imageSearch.execute($scope.carString);
     }
 
-
     // Sets the value of the row selector to current index
     $scope.setClickedRow = function(index) {
         $scope.selectedRow = index;
         $scope.inspectCar = $scope.selectedCars[index];
+        $scope.calculateCost();
     };
 
-    $scope.fcMax = 35;
-    $scope.fcMaxMpg = 70;
-    $scope.emissionsMax = 700;
+    // Sets province for carbon tax rate
+    $scope.checkProvince = function (carbonProvince) {
+        if (carbonProvince == "British Columbia") {
+            $scope.quebec = false;
+            $scope.britishColumbia = true;
+        } else if (carbonProvince == "Quebec"){
+            $scope.britishColumbia = false;
+            $scope.quebec = true;
 
+        }
+    };
 
 }); //SearchController

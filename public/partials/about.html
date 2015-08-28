@@ -1,9 +1,21 @@
-  <section>
-	  <h1> Animation Test </h1>
-	  <button ng-click="animate()">Animate</button>
-	  <button ng-click="googleStuff()">Google Image API</button>
-	  <h1 ng-if="welcomeBool" class="welcome">
-	     Hello 'non-bouncy' and fading Firefox animation!
-	  </h1>
-	  	<img id = "lol" class="img-responsive" src="images/whiteCar.png">
+<section>
+	<h1> Animation Test </h1>
+	<button ng-click="animate()">Animate</button>
+	<button ng-click="googleStuff()">Google Image API</button>
+	<button ng-click="text()">Text</button>
+	<h1 ng-if="welcomeBool" class="welcome">
+	Hello 'non-bouncy' and fading Firefox animation!
+	</h1>
+	<div>
+		<form novalidate>
+			First Name:<br>
+			<input type="text" ng-model="user.firstName"><br>
+			Last Name:<br>
+			<input type="text" ng-model="user.lastName">
+			<br><br>
+			<button ng-click="reset()">RESET</button>
+		</form>
+		<p>form = {{user}}</p>
+		<p>master = {{master}}</p>
+	</div>
 </section>

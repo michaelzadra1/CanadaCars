@@ -1,4 +1,4 @@
-myApp.controller('HomeController', function($scope, $http) {
+myApp.controller('HomeController', function($scope) {
 	// Set animation class
 	$scope.pageClass = 'home';
 
