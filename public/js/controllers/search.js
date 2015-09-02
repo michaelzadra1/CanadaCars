@@ -26,6 +26,16 @@ myApp.controller('SearchController', function($scope, $http) {
     $scope.britishColumbia = false;
     $scope.quebec = false;
 
+    // Tax rate for carbon tax
+    $scope.taxRate = {
+        quebec: 0.8,
+        bcGas: 6.67,
+        bcDiesel: 7.67
+    };
+
+    // Annual carbon tax cost variable
+    $scope.carbonCost;
+
     // Resets car cost details
     $scope.reset = function() {
         $scope.carCost = angular.copy($scope.defaultCost);
@@ -56,19 +66,16 @@ myApp.controller('SearchController', function($scope, $http) {
             $scope.annualCost = parseFloat(Math.round($scope.annualCost * 100) / 100).toFixed(2);
             // Cost per KM
             console.log($scope.costPerKm);
-            $scope.costPerKm = $scope.annualCost/$scope.carCost.annualDistance;
+            $scope.costPerKm = $scope.annualCost / $scope.carCost.annualDistance;
             $scope.costPerKm = parseFloat(Math.round($scope.costPerKm * 100) / 100).toFixed(2);
             //console.log("Annual cost of car is " + $scope.annualCost + " dollars.");
             console.log($scope.costPerKm);
         }
+        $scope.calculateCarbonTax($scope.carbonProvince);
+        console.log($scope.carbonProvince);
     }
 
-    // Calculate carbon tax
-    $scope.calculateCarbonTax = function() {
-
-    }
-
-    // User selects year, function returns array of cars from that year
+    // User selects year, function returns object of cars from that year
     $scope.getCars = function(year) {
         // HTTP request to get cars as JSON object
         $http.post('/cars', {
@@ -152,15 +159,29 @@ myApp.controller('SearchController', function($scope, $http) {
     };
 
     // Sets province for carbon tax rate
-    $scope.checkProvince = function (carbonProvince) {
+    $scope.calculateCarbonTax = function(carbonProvince) {
+        $scope.carbonProvince = carbonProvince;
         if (carbonProvince == "British Columbia") {
             $scope.quebec = false;
             $scope.britishColumbia = true;
-        } else if (carbonProvince == "Quebec"){
+            // Tax rate differes for vehicles with Diesel
+            if ($scope.inspectCar.fuel_type == "Diesel") {
+                $scope.carbonCost = $scope.combinedRate * $scope.carCost.annualDistance * ($scope.taxRate.bcDiesel / 100);
+            // Regular Gas
+            } else {
+                $scope.carbonCost = $scope.combinedRate * $scope.carCost.annualDistance * ($scope.taxRate.bcGas / 100);
+            }
+        } else if (carbonProvince == "Quebec") {
             $scope.britishColumbia = false;
             $scope.quebec = true;
-
+            $scope.carbonCost = $scope.combinedRate * $scope.carCost.annualDistance * ($scope.taxRate.quebec / 100);
+        } else {
+            $scope.quebec = false;
+            $scope.britishColumbia = false;
+            $scope.carbonCost = 0;
         }
+        $scope.carbonCost = parseFloat(Math.round($scope.carbonCost * 100) / 100).toFixed(2);
+
     };
 
 }); //SearchController
