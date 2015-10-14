@@ -3,8 +3,10 @@ var app = express();
 var mongojs = require('mongojs');
 var port = process.env.PORT || 3000
 var bodyParser = require('body-parser');
-// mongojs(database, [collection])
-var db = mongojs('meanCars', ['meanCars']);
+// CURRENT PROBLEM - AUTH FAILING. 
+var db = mongojs("mongodb://michaelzadra:Letmein1@ec2-52-23-251-196.compute-1.amazonaws.com:27017/admin?auto_reconnect=true&authSource=admin", ["meanCars"]);
+//var db = mongojs("localhost/meanCars", ["meanCars"]);
+
 
 
 
@@ -12,6 +14,10 @@ var db = mongojs('meanCars', ['meanCars']);
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
+db.meanCars.find({"year":1995}, function(err,docs){
+	console.log(err);
+	console.log(docs);
+});
 
 // Returns a JSON object containing all the cars of the specified year
 app.post('/cars', function(req, res) {
