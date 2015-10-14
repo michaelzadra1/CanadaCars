@@ -1,9 +1,10 @@
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
+var port = process.env.PORT || 3000
 var bodyParser = require('body-parser');
 // mongojs(database, [collection])
-var db = mongojs('freshCars', ['meanCars']);
+var db = mongojs('meanCars', ['meanCars']);
 
 
 
@@ -41,5 +42,5 @@ app.post('/selectCar', function(req,res){
 
 
 // Use port 3000
-app.listen(3000);
-console.log("Sever running on port 3000");
+app.listen(port);
+console.log("Sever running on port " + port);
